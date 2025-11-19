@@ -1,0 +1,40 @@
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p class="site-name">Les Amis de Jaques COEUR</p>
+    <p class="legal-link"><a href="legal.html">Mentions légales</a></p>
+  </div>
+</footer>
+
+<style>
+  .site-footer{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#f8f8f8;
+    border-top:1px solid #e6e6e6;
+    padding:0.6rem 0;
+    text-align:center;
+    font-size:0.95rem;
+    z-index:1000;
+  }
+  .site-footer .site-footer-inner{max-width:1100px;margin:0 auto;padding:0 1rem;}
+  .site-footer a{color:inherit;text-decoration:underline}
+</style>
+
+<script>
+  // Ensure page content is not hidden under the fixed footer by adding bottom padding
+  (function(){
+    function adjustBodyPadding(){
+      var footer = document.querySelector('.site-footer');
+      if(!footer) return;
+      var h = footer.offsetHeight || 48;
+      document.documentElement.style.setProperty('padding-bottom', h + 'px');
+      document.body.style.paddingBottom = h + 'px';
+    }
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', adjustBodyPadding);
+    } else adjustBodyPadding();
+    window.addEventListener('resize', adjustBodyPadding);
+  })();
+</script>

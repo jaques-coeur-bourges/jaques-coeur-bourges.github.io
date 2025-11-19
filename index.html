@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Amis de Jaques COEUR</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/nav.css">
+<script defer type="text/javascript" src="assets/nav.js"></script>
+
+</head>
+<body>
+
+    <div id="nav"></div>
+
+    <h2>Bienvenue !</h2>
+    
+
+    
+
+    <div id="footer"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+              fetch('assets/nav.html')
+                .then(response => response.text())
+                .then(data => document.getElementById('nav').innerHTML = data);
+        });
+        document.addEventListener("DOMContentLoaded", (event) => {
+              fetch('assets/footer.html')
+                .then(response => response.text())
+                .then(data => document.getElementById('footer').innerHTML = data);
+        });
+        </script>
+
+    
+</body>
+</html>

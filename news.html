@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualités</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/nav.css">
+    <link rel="stylesheet" href="assets/news.css">
+</head>
+<body>
+    <div id="nav"></div>
+
+    <main class="container">
+        <section id="articles-list">
+            <h1>Actualités</h1>
+            <div id="list"></div>
+        </section>
+
+        <section id="article-content" style="display:none;">
+            <button id="back">← Retour aux articles</button>
+            <article id="content"></article>
+        </section>
+    </main>
+
+        <div id="footer"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            // load nav
+            fetch('assets/nav.html')
+                .then(response => response.text())
+                .then(data => document.getElementById('nav').innerHTML = data);
+
+            // load articles index
+            fetch('assets/articles/index.json')
+                .then(r => r.json())
+                .then(renderIndex)
+                .catch(err => {
+                    document.getElementById('list').innerText = 'Erreur lors du chargement des articles.';
+                    console.error(err);
+                });
+        });
+
+        function renderIndex(index) {
+            const list = document.getElementById('list');
+            if (!index || index.length === 0) {
+                list.innerText = 'Aucun article trouvé.';
+                return;
+            }
+
+            index.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'article-card';
+
+                const title = document.createElement('h2');
+                title.innerText = item.title;
+
+                const date = document.createElement('div');
+                date.className = 'meta';
+                date.innerText = item.date || '';
+
+                const excerpt = document.createElement('p');
+                excerpt.innerText = item.excerpt || '';
+
+                const link = document.createElement('a');
+                link.href = '#';
+                link.innerText = 'Lire';
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openArticle(item.file, item.title);
+                });
+
+                card.appendChild(title);
+                card.appendChild(date);
+                card.appendChild(excerpt);
+                card.appendChild(link);
+
+                list.appendChild(card);
+            });
+        }
+
+    </script>
+
+    <!-- marked for Markdown -> HTML, and DOMPurify to sanitize -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
+
+    <script>
+        // Open and render a markdown article
+        function openArticle(filename, title) {
+            const listSection = document.getElementById('articles-list');
+            const contentSection = document.getElementById('article-content');
+            const content = document.getElementById('content');
+
+            fetch('assets/articles/' + filename)
+                .then(r => {
+                    if (!r.ok) throw new Error('Erreur HTTP ' + r.status);
+                    return r.text();
+                })
+                .then(md => {
+                    const rawHtml = marked.parse(md);
+                    const clean = DOMPurify.sanitize(rawHtml);
+                    content.innerHTML = '<h1>' + (title || '') + '</h1>' + clean;
+
+                    listSection.style.display = 'none';
+                    contentSection.style.display = '';
+                })
+                .catch(err => {
+                    content.innerHTML = '<p>Impossible de charger l\'article.</p>';
+                    console.error(err);
+                    listSection.style.display = 'none';
+                    contentSection.style.display = '';
+                });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'back') {
+                document.getElementById('article-content').style.display = 'none';
+                document.getElementById('articles-list').style.display = '';
+            }
+        });
+        document.addEventListener("DOMContentLoaded", (event) => {
+              fetch('assets/footer.html')
+                .then(response => response.text())
+                .then(data => document.getElementById('footer').innerHTML = data);
+        });
+    </script>
+</body>
+</html>

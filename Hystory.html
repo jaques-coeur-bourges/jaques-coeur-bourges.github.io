@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/nav.css">
+</head>
+<body>
+    <div id="nav"></div>
+
+    <H1>Jaques Coeur</H1>
+    <p>Jacques Coeur, né à Bourges en 1400, est l'ami des rois, des papes et des princes. Grand Argentier du roi Charles VII, c'est avec l'argent prêté au roi qu'il permet au "Petit Roi de Bourges de bouter les Anglais hors de France".</p>
+    <p>Il fut un homme d'affaires remarquable. Mettant sur pied un empire commercial et même industriel avec des mines. Sa vie dans les honneurs et sa fin tragique à Chios font de cette existence un véritable roman. Il eut des amis fidèles, ses facteurs comme Jean de Village ou Guillaume de Varye, sans oublier la belle Agnès Sorel...</p>
+    <p>Son palais de Bourges reste le plus bel édifice civil du XVème siècle.  Et la route Jacques Coeur, historique et touristique, est tout à fait remarquable.</p>
+
+        <div id="footer"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+              fetch('assets/nav.html')
+                .then(response => response.text())
+                .then(data => document.getElementById('nav').innerHTML = data);
+        });
+        document.addEventListener("DOMContentLoaded", (event) => {
+              fetch('assets/footer.html')
+                .then(response => response.text())
+                .then(data => document.getElementById('footer').innerHTML = data);
+        });
+        </script>
+</body>
+</html>
